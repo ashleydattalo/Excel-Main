@@ -1,0 +1,89 @@
+'lab04
+'Ashley Dattalo
+
+Option Explicit
+
+Function MyLine(n)
+    MyLine = 2 * n
+End Function
+Function MySqr(n)
+    MySqr = n ^ (1 / 2)
+End Function
+Function MyCube(n)
+    MyCube = n ^ (3)
+End Function
+Function MySin(n)
+    MySin = Sin(n)
+End Function
+Function MyExp(n)
+    MyExp = Exp(-0.1 * n) * Cos(n)
+End Function
+
+Sub chartByColumns(cTitle As String, xVals As Range, xTitle As String, yVals As Range, yTitle As String, sName As String)
+    Dim ct As Chart
+    Set ct = ActiveSheet.Shapes.AddChart().Chart
+    With ct
+        .SetSourceData Source:=yVals, PlotBy:=xlColumns
+        .HasTitle = True
+        .ChartTitle.Characters.Text = cTitle
+        .ChartType = xlLine
+        .SeriesCollection(1).XValues = xVals
+        .SeriesCollection(1).Name = sName
+        .Axes(xlCategory, xlPrimary).HasTitle = True
+        .Axes(xlCategory, xlPrimary).AxisTitle.Characters.Text = yTitle
+        .Axes(xlValue, xlPrimary).HasTitle = True
+        .Axes(xlValue, xlPrimary).AxisTitle.Characters.Text = xTitle
+        .Parent.Name = cTitle
+    End With
+End Sub
+
+Sub main()
+    ActiveSheet.Cells.Clear
+    
+    Range("A1").Value = "n"
+    Range("B1").Value = "MyLine(n)"
+    Range("C1").Value = "MySqr(n)"
+    Range("D1").Value = "MyCube(n)"
+    Range("E1").Value = "MySin(n)"
+    Range("F1").Value = "MyExp(n)"
+    
+    Range("A2:A14").Value = "=Row()-2"
+
+    Range("B2:B14").Formula = "=MyLine(RC[-1])"
+    Range("C2:C14").Formula = "=MySqr(RC[-2])"
+    Range("D2:D14").Formula = "=MyCube(RC[-3])"
+    Range("E2:E14").Formula = "=MySin(RC[-4])"
+    Range("F2:F14").Formula = "=MyExp(RC[-5])"
+
+
+    
+    Range("A1:F14").Columns.AutoFit
+    Range("A15").Value = "Ashley Dattalo"
+    Range("B2:F14").NumberFormat = "0.0000"
+    Range("A1:F15").Columns.AutoFit
+    Range("A1:F15").HorizontalAlignment = xlRight
+    
+    Call chartByColumns("Ashley Dattalo MyLine", Range("A2:A14"), "y-value", Range("B2:B14"), "N", "y = 2n")
+    MsgBox ("Delete: " & "MyLine")
+    ActiveSheet.ChartObjects("Ashley Dattalo MyLine").Delete
+    
+    Call chartByColumns("Ashley Dattalo MySqr", Range("A2:A14"), "y-value", Range("C2:C14"), "N", "y = n ^(1/2)")
+    MsgBox ("Delete: " & "MySqr")
+    ActiveSheet.ChartObjects("Ashley Dattalo MySqr").Delete
+    
+    Call chartByColumns("Ashley Dattalo MyCube", Range("A2:A14"), "y-value", Range("D2:D14"), "N", "y = n ^ (3)")
+    MsgBox ("Delete: " & "MyCube")
+    ActiveSheet.ChartObjects("Ashley Dattalo MyCube").Delete
+    
+    Call chartByColumns("Ashley Dattalo MySin", Range("A2:A14"), "y-value", Range("E2:E14"), "N", "y = Sin(n)")
+    MsgBox ("Delete: " & "MySin")
+    ActiveSheet.ChartObjects("Ashley Dattalo MySin").Delete
+    
+    Call chartByColumns("Ashley Dattalo MyExp", Range("A2:A14"), "y-value", Range("F2:F14"), "N", "y = Exp(-0.1 * n) * Cos(n)")
+    MsgBox ("Delete: " & "MyExp")
+    ActiveSheet.ChartObjects("Ashley Dattalo MyExp").Delete
+
+    
+    
+End Sub
+
