@@ -1,0 +1,186 @@
+'ashley dattalo
+'lab12
+
+Option Explicit
+
+Sub chartTwoLines(x1, y1, x2, y2, x1y1Name As String, x2y2Name As String, chartName As String, PlotBy As Integer)
+    Dim cht As Chart
+    Set cht = ActiveSheet.Shapes.AddChart().Chart
+    With cht
+    .SetSourceData Source:=x1, PlotBy:=PlotBy
+    .HasTitle = True
+    .ChartTitle.Characters.Text = chartName
+    .SeriesCollection(1).Values = y1
+    .SeriesCollection(1).Name = x1y1Name
+    .ChartType = xlLine
+    
+    .SeriesCollection.NewSeries
+    .SeriesCollection(2).XValues = x2
+    .SeriesCollection(2).Values = y2
+    .SeriesCollection(2).Name = x2y2Name
+    .ChartType = xlLine
+    
+    .Parent.Name = chartName
+  End With
+  
+End Sub
+
+Function MyLine(m, x, b)
+
+    Dim i As Long, n As Long
+    Dim y As Variant
+    n = UBound(x)
+    ReDim y(1 To n)
+    
+    For i = 1 To UBound(x)
+        y(i) = m * x(i) + b
+    Next i
+    MyLine = y
+    
+End Function
+
+Function SumOf(x)
+
+    Dim i As Integer
+    Dim s As Double
+    s = 0
+    For i = 1 To UBound(x)
+        s = s + x(i)
+    Next
+    SumOf = s
+    
+End Function
+
+Function MySumOf(y)
+
+    Dim i As Integer
+    Dim s As Double
+    s = 0
+    For i = 1 To UBound(y)
+        s = s + y(i)
+    Next
+    MySumOf = s
+    
+End Function
+
+
+Function SumProdOf(x, y)
+
+    Dim i As Integer
+    Dim s As Double
+    s = 0
+    For i = 1 To UBound(x)
+        s = s + x(i) * y(i)
+    Next
+    SumProdOf = s
+    
+End Function
+
+Function SumProdOfX(x)
+
+    Dim i As Integer
+    Dim s As Double
+    s = 0
+    For i = 1 To UBound(x)
+        s = s + x(i) ^ 2
+    Next
+    SumProdOfX = s
+End Function
+
+Function MyAve(x)
+    Dim i As Integer
+    Dim s As Double
+    s = 0
+    For i = 1 To UBound(x)
+        s = s + x(i)
+    Next
+    MyAve = s / 6
+    
+End Function
+
+Function MyAveY(y)
+    Dim i As Integer
+    Dim s As Double
+    s = 0
+    For i = 1 To UBound(y)
+        s = s + y(i)
+    Next
+    MyAveY = s / 6
+    
+End Function
+
+Function m(x, y)
+
+    Dim i As Integer
+    i = UBound(x)
+    m = (SumProdOf(x, y) - ((SumOf(x) * MySumOf(y)) / i)) / (((SumProdOfX(x))) - (((SumOf(x)) ^ 2) / i))
+    
+End Function
+
+Function b(x, y)
+
+    Dim i As Integer
+        i = UBound(x)
+    b = (MySumOf(y) / i) - m(x, y) * (SumOf(x) / i)
+
+End Function
+
+Function yfit(m, x, b)
+    Dim C As Variant
+    Dim i As Integer
+        i = UBound(x)
+    C(i) = MyLine(m, x, b)
+    Next
+    yfit = C
+    
+End Function
+
+Sub main()
+
+    Dim x1 As Variant, y1 As Variant, yfit As Variant
+    Dim b1 As Double, m1 As Double
+    Dim name1 As String, name2 As String
+    
+    x1 = Application.WorksheetFunction.Transpose(Range("B3:B8"))
+    y1 = Application.WorksheetFunction.Transpose(Range("C3:C8"))
+    
+    Cells(1, 1) = "Coordinates"
+    
+    Cells(2, 4) = "LstSq y-values"
+    
+    
+    yfit = MyLine(m(x1, y1), x1, b(x1, y1))
+    
+    Cells(9, 1) = "Slope of Line"
+    Cells(9, 2) = m(x1, y1)
+    Cells(10, 1) = "Y-intercept"
+    Cells(10, 2) = b(x1, y1)
+    Cells(11, 2) = "y = " & Format(Cells(9, 2), "0.0") & "x + " & Format(Cells(10, 2), "0.0")
+    
+    Range("D3:D8") = Application.WorksheetFunction.Transpose(yfit)
+    
+    Range("B9:B10").NumberFormat = "0.00000000"
+    Cells(11, 1) = "Equation of Line"
+    
+    name1 = "xy data"
+    name2 = Cells(11, 2)
+    
+    Call chartTwoLines(Range("B3:B8"), Range("C3:C8"), Range("B3:B8"), Range("D3:D8"), name1, name2, _
+    "lst Sq Fit - Ashley Dattalo", xlColumns)
+    
+    Cells(1, 2) = "Ashley Dattalo"
+    Range("D3:D8").NumberFormat = "0.0"
+    Range("A1:A11").Columns.AutoFit
+    Range("A1,A9,A10,A11").HorizontalAlignment = xlLeft
+    Range("B1:D11").HorizontalAlignment = xlRight
+    Range("D1:D2").Columns.AutoFit
+    Range("B11:B12").Columns.AutoFit
+    
+    
+    
+
+End Sub
+
+
+
+
