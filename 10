@@ -1,0 +1,117 @@
+'lab10
+'ashley Dattalo
+Option Explicit
+Function SumOf(x)
+    Dim i As Integer
+    Dim s As Double
+    s = 0
+    For i = 1 To UBound(x)
+        s = s + x(i)
+    Next
+    SumOf = s
+    
+End Function
+Function MySumOf(y)
+    Dim i As Integer
+    Dim s As Double
+    s = 0
+    For i = 1 To UBound(y)
+        s = s + y(i)
+    Next
+    MySumOf = s
+    
+End Function
+Function SumProdOf(x, y)
+    Dim i As Integer
+    Dim s As Double
+    s = 0
+    For i = 1 To UBound(x)
+        s = s + x(i) * y(i)
+    Next
+    SumProdOf = s
+    
+End Function
+Function SumProdOfX(x)
+    Dim i As Integer
+    Dim s As Double
+    s = 0
+    For i = 1 To UBound(x)
+        s = s + x(i) ^ 2
+    Next
+    SumProdOfX = s
+End Function
+Function MyAve(x)
+    Dim i As Integer
+    Dim s As Double
+    s = 0
+    For i = 1 To UBound(x)
+        s = s + x(i)
+    Next
+    MyAve = s / 6
+    
+End Function
+Function MyAveY(y)
+    Dim i As Integer
+    Dim s As Double
+    s = 0
+    For i = 1 To UBound(y)
+        s = s + y(i)
+    Next
+    MyAveY = s / 6
+    
+End Function
+Function m(x, y)
+    Dim i As Integer
+    i = UBound(x)
+    m = (SumProdOf(x, y) - ((SumOf(x) * MySumOf(y)) / i)) / (((SumProdOfX(x))) - (((SumOf(x)) ^ 2) / i))
+    
+End Function
+Function b(x, y)
+Dim i As Integer
+    i = UBound(x)
+b = (MySumOf(y) / i) - m(x, y) * (SumOf(x) / i)
+End Function
+Sub Main()
+    
+    Dim xdata As Variant, ydata As Variant
+    Cells.Clear
+    
+    xdata = [ { 0, 1, 2, 3, 4, 5 } ]
+    ydata = [ {0, 20, 60, 68, 77, 110 } ]
+    
+    Cells(2, 1) = "x"
+    Cells(2, 2) = "y"
+    Range(Cells(2, 1), Cells(2, 2)).HorizontalAlignment = xlRight
+    Range(Cells(3, 1), Cells(3 + UBound(xdata) - 1, 1)) = Application.WorksheetFunction.Transpose(xdata)
+    Range(Cells(3, 2), Cells(3 + UBound(ydata) - 1, 2)) = Application.WorksheetFunction.Transpose(ydata)
+    
+    Cells(4, 4) = "MySumof(y)"
+    Cells(4, 5) = MySumOf(ydata)
+    Cells(3, 4) = "SumOf(x)"
+    Cells(3, 5) = SumOf(xdata)
+    Cells(6, 4) = "SumProdOf(x, y)"
+    Cells(6, 5) = SumProdOf(xdata, ydata)
+    Cells(7, 4) = "AveOf(x)"
+    Cells(7, 5) = MyAve(xdata)
+     Cells(8, 4) = "AveOf(y)"
+    Cells(8, 5) = MyAveY(ydata)
+    Cells(5, 4) = "SumProdOf(x, x)"
+    Cells(5, 5) = SumProdOfX(xdata)
+    Cells(1, 4) = "Least Squares Linear Approximation"
+    Cells(11, 4) = "Best Fitted Line (least squares method) "
+    
+    Cells(9, 4) = "m(x,y)"
+    Cells(9, 5) = m(xdata, ydata)
+    
+    Cells(10, 4) = "b(x,y)"
+    Cells(10, 5) = b(xdata, ydata)
+    
+    
+    Cells(11, 5) = "y = " & Format(Cells(9, 5), "0.0") & "x + " & Format(Cells(10, 5), "0.0")
+    Cells(11, 5).Cells.Columns.AutoFit
+    Cells(2, 4) = "Ashley Dattalo"
+    Range("A1:E11").NumberFormat = "0.0"
+    
+End Sub
+
+
