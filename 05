@@ -1,0 +1,81 @@
+'lab 04
+'Ashley Dattalo
+
+Option Explicit
+
+Sub chartByColumns(cTitle As String, xVals As Range, xTitle As String, yVals As Range, yTitle As String, sName As String)
+    Dim ct As Chart
+    Set ct = ActiveSheet.Shapes.AddChart().Chart
+    With ct
+        .SetSourceData Source:=yVals, PlotBy:=xlColumns
+        .HasTitle = True
+        .ChartTitle.Characters.Text = cTitle
+        .ChartType = xlLine
+        .SeriesCollection(1).XValues = xVals
+        .SeriesCollection(1).Name = sName
+        .Axes(xlCategory, xlPrimary).HasTitle = True
+        .Axes(xlCategory, xlPrimary).AxisTitle.Characters.Text = yTitle
+        .Axes(xlValue, xlPrimary).HasTitle = True
+        .Axes(xlValue, xlPrimary).AxisTitle.Characters.Text = xTitle
+        .Parent.Name = cTitle
+    End With
+End Sub
+
+Function nRowValues(n, a, b)
+
+    Dim v As Variant
+    Dim x As Double
+    Dim i As Integer
+    x = (b - a) / (n - 1)
+    ReDim v(1 To n)
+    v(1) = a
+    For i = 2 To n - 1
+        v(i) = v(i - 1) + x
+    Next
+    v(i) = b
+    nRowValues = v
+    
+End Function
+Function nColumnValues(n, a, b)
+
+    nColumnValues = Application.WorksheetFunction.Transpose(nRowValues(n, a, b))
+    
+End Function
+Function MySin(x)
+    MySin = Sin(x)
+End Function
+Function Convert(x)
+    Convert = ((x * 3.14159) / 180)
+End Function
+Function MySind(x)
+    MySind = Sin(Convert(x))
+End Function
+Function MyCosd(x)
+    MyCosd = Cos(Convert(x)) + ((MySind(x)) ^ 2)
+End Function
+
+Sub main()
+    Cells.Clear
+    Range("A1") = "x(deg)"
+    Range("B1") = "MySin(x)"
+    Range("C1") = "Ashley Dattalo"
+    
+    Range("A2:A74") = nColumnValues(73, 0, 720)
+    Range("B2:B74").Formula = "=MySind(RC[-1])"
+    Range("C2:C74").Formula = "=MyCosd(RC[-2])"
+    
+     Range("B2:C74").NumberFormat = "0.000000"
+    
+    Call chartByColumns("lab05a Ashley Dattalo", Range("A2:A75"), "Y-Value", Range("B2:B75"), "X-Value (deg)", "MySind(x)")
+    MsgBox ("Delete: " & "lab05a Ashley Dattalo")
+    ActiveSheet.ChartObjects("lab05a Ashley Dattalo").Delete
+    
+    Call chartByColumns("lab05a Ashley Dattalo", Range("A2:A75"), "Y-Value", Range("C2:C75"), "X-Value (deg)", "MyCosd(x)")
+    MsgBox ("Delete: " & "lab05a Ashley Dattalo")
+    ActiveSheet.ChartObjects("lab05a Ashley Dattalo").Delete
+
+
+End Sub
+
+
+
