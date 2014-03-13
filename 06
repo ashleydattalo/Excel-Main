@@ -1,0 +1,133 @@
+'lab06
+'Ashley Dattalo
+
+Option Explicit
+
+Function MyRand(lo, hi)
+    MyRand = Int(Rnd * (hi - lo + 1)) + lo
+End Function
+Function MyDistance(x, y)
+    MyDistance = ((x ^ 2) + (y ^ 2)) ^ (1 / 2)
+End Function
+Function MyQuadrant(x, y)
+    Dim q As String
+    
+    If x = 0 And y = 0 Then
+        q = "Orgin"
+    End If
+    
+    If x = 0 And y > 0 Then
+        q = "I,IV"
+    End If
+     If x = 0 And y < 0 Then
+        q = "II,III"
+    End If
+     If x < 0 And y = 0 Then
+        q = "III,IV"
+    End If
+     If x > 0 And y = 0 Then
+        q = "I,II"
+    End If
+    
+    
+    If x > 0 And y > 0 Then
+        q = "I"
+    End If
+    
+    If x < 0 And y > 0 Then
+        q = "II"
+    End If
+    
+    If x < 0 And y < 0 Then
+        q = "III"
+    End If
+    
+    If x > 0 And y < 0 Then
+        q = "IV"
+    End If
+    
+    MyQuadrant = q
+        
+End Function
+Function MyAgeGroup(age)
+    Dim g As String
+      
+    If age < 0 Or age > 124 Then
+        g = "ERROR"
+    End If
+    
+    If age >= 0 And age < 3 Then
+        g = "Infant"
+    End If
+    
+    If age >= 3 And age < 5 Then
+        g = "Toddler"
+    End If
+    
+    If age >= 5 And age < 13 Then
+        g = "Child"
+    End If
+    
+    If age >= 13 And age < 18 Then
+        g = "Teen"
+    End If
+    
+    If age >= 18 And age < 55 Then
+        g = "Adult"
+    End If
+    
+    If age >= 55 And age <= 79 Then
+        g = "Senior"
+    End If
+    
+    If age >= 80 And age <= 89 Then
+        g = "Octogenerian"
+    End If
+    
+    If age >= 90 And age <= 99 Then
+        g = "90 - 99"
+    End If
+    
+    If age >= 100 And age <= 124 Then
+        g = "Centurian"
+    End If
+    
+    MyAgeGroup = g
+    
+End Function
+
+Sub main()
+    Dim seed As Integer
+    Cells.Clear
+    Application.ScreenUpdating = True
+    seed = -2
+    Rnd [seed]
+    
+    Range("A1") = "Problem 1"
+    Range("A2") = "Age"
+    Range("B2") = "AgeGroup"
+    Range("H1") = "Ashley Dattalo"
+    Range("A3:A22").Formula = "=MyRand(-20,130)"
+    Range("B3:B22").Formula = "=MyAgeGroup(RC[-1])"
+  
+    seed = -3
+    Rnd [seed]
+    
+    Range("D1") = "Problem 2"
+    Range("D2") = "x"
+    Range("E2") = "y"
+    Range("F2") = "Distance From Orgin"
+    Range("G2") = "Quadrants"
+    Range("D3:D22").Formula = "=MyRand(-2, 2)"
+    Range("E3:E22").Formula = "=MyRand(-2, 2)"
+    Range("F3:F22").Formula = "=MyDistance(RC[-2], RC[-1])"
+    Range("G3:G22").Formula = "=MyQuadrant(RC[-3], RC[-2])"
+    
+    Range("F2:F22").NumberFormat = "0.00"
+    Range("A2:H22").Columns.AutoFit
+    Range("A2:H22").HorizontalAlignment = xlRight
+    
+End Sub
+ 
+ 
+
