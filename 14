@@ -1,0 +1,91 @@
+'lab14
+'ashley dattalo
+
+Option Explicit
+
+Sub ChartType(stype As String)
+    Dim ochart As Chart, ochartobj As ChartObject
+    Dim ctype As Integer
+    Set ochart = Charts.Add
+    With ochart
+        .SetSourceData Source:=Sheet1.Range( _
+            "A1:J1"), PlotBy:=xlRows
+        .Location where:=xlLocationAsObject, Name:="Sheet1"
+        End With
+        With ActiveSheet
+            Set ochartobj = .ChartObjects(.ChartObjects.Count)
+        End With
+        
+        'IF ELSEIF ELSE BLOCK converts string "chartType" to number chartType
+        If stype = "xlLine" Then
+            ctype = xlLine
+        ElseIf stype = "xl3DColumn" Then
+            ctype = xl3DColumn
+        ElseIf stype = "xl3DPie" Then
+            ctype = xl3DPie
+        ElseIf stype = "xlPieExploded" Then
+            ctype = xlPieExploded
+        ElseIf stype = "xlConeCol" Then
+            ctype = xlConeCol
+        Else
+            ctype = xlLine
+        End If
+        
+        With ochartobj.Chart
+            .HasTitle = True
+            .Axes(xlCategory, xlPrimary).HasTitle = False
+            .Axes(xlValue, xlPrimary).HasTitle = True
+            .Axes(xlValue, xlPrimary).AxisTitle.Characters.Text = "Title of Y-Axis"
+            .ChartType = ctype
+        End With
+    End Sub
+    
+Sub Fill()
+    Cells(1, 1).Value = 81
+    Cells(1, 2).Value = 73
+    Cells(1, 3).Value = 74
+    Cells(1, 4).Value = 88
+    Cells(1, 5).Value = 94
+    Cells(1, 6).Value = 55
+    Cells(1, 7).Value = 87
+    Cells(1, 8).Value = 78
+    Cells(1, 9).Value = 92
+    Cells(1, 10).Value = 76
+End Sub
+
+Sub main()
+    Dim ChartObject As Object
+    For Each ChartObject In Sheet1.ChartObjects
+        ChartObject.Delete
+    Next
+    Call Fill
+    Call ChartType("xlLine")
+End Sub
+
+
+Private Sub CommandButton1_Click()
+    Unload Me
+    UserForm1.Show
+End Sub
+
+Private Sub CommandButton2_Click()
+    Unload UserForm1
+End Sub
+
+Private Sub UserForm_Activate()
+    With ComboBox1
+        .AddItem "xlLine"
+        .AddItem "xl3DColumn"
+        .AddItem "xl3DPie"
+        .AddItem "xlPieExploded"
+        .AddItem "xlConeCol"
+    End With
+End Sub
+Private Sub ComboBox1_Change()
+    Dim ChartObject As Object
+    For Each ChartObject In Sheet1.ChartObjects
+        ChartObject.Delete
+    Next
+    Call ChartType(ComboBox1.Value)
+End Sub
+
