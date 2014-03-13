@@ -1,0 +1,156 @@
+'lab07
+'Ashley Dattalo
+
+Option Explicit
+
+Function MyAgeGroup(age)
+Dim g As String
+    If age < 0 Or age > 124 Then
+        g = "Error"
+    End If
+    
+    If age >= 0 And age < 13 Then
+        g = "Child"
+    End If
+    
+    If age >= 13 And age < 18 Then
+        g = "Teen"
+    End If
+    
+    If age >= 18 And age < 55 Then
+        g = "Adult"
+    End If
+    If age >= 55 And age < 124 Then
+        g = "Senior"
+    End If
+    
+MyAgeGroup = g
+
+End Function
+
+Sub fill()
+    Cells.Clear
+    Randomize Rnd(-2)
+    Range("A1:A20") = "=MyRand(-5,70)"
+    Range("B1:B20") = "=MyAgeGroup(RC[-1])"
+End Sub
+
+Sub main()
+
+    Dim rc As Range, rng As Range
+    Dim senior As Range
+    Dim child As Range
+    Dim teen As Range
+    Dim adult As Range
+    Dim error As Range
+
+    
+    Range("B1:B20") = "=MyAgeGroup(RC[-1])"
+    
+    Set rng = Range("B1:B20")
+    For Each rc In rng
+        If rc = "Senior" Then
+            If senior Is Nothing Then
+                Set senior = rc.Offset(0, -1)
+            Else
+                Set senior = Union(senior, rc.Offset(0, -1))
+            End If
+        End If
+    Next
+    
+    For Each rc In rng
+        If rc = "Child" Then
+            If child Is Nothing Then
+                Set child = rc.Offset(0, -1)
+            Else
+                Set child = Union(child, rc.Offset(0, -1))
+            End If
+        End If
+    Next
+    
+    For Each rc In rng
+        If rc = "Teen" Then
+            If teen Is Nothing Then
+                Set teen = rc.Offset(0, -1)
+            Else
+                Set teen = Union(teen, rc.Offset(0, -1))
+            End If
+        End If
+    Next
+    
+    For Each rc In rng
+        If rc = "Adult" Then
+            If adult Is Nothing Then
+                Set adult = rc.Offset(0, -1)
+            Else
+                Set adult = Union(adult, rc.Offset(0, -1))
+            End If
+        End If
+    Next
+    
+    For Each rc In rng
+        If rc = "Error" Then
+            If error Is Nothing Then
+                Set error = rc.Offset(0, -1)
+            Else
+                Set error = Union(error, rc.Offset(0, -1))
+            End If
+        End If
+    Next
+     
+    
+    senior.Offset(0, 1).Interior.Color = RGB(150, 150, 150)
+    senior.Interior.Color = RGB(150, 150, 150)
+    child.Offset(0, 1).Interior.Color = RGB(50, 50, 255)
+    child.Interior.Color = RGB(50, 50, 255)
+    teen.Offset(0, 1).Interior.Color = RGB(50, 255, 50)
+    teen.Interior.Color = RGB(50, 255, 50)
+    adult.Offset(0, 1).Interior.Color = RGB(150, 255, 255)
+    adult.Interior.Color = RGB(150, 255, 255)
+    error.Offset(0, 1).Interior.Color = RGB(255, 0, 0)
+    error.Interior.Color = RGB(255, 0, 0)
+    
+    
+    Range("D3") = "ChildAve"
+    Range("D4") = "TeenAve"
+    Range("D5") = "AdultAve"
+    Range("D6") = "SeniorAve"
+    Range("D8") = "ERRORS"
+    
+    Range("E3") = Application.Sum(child) / child.Count
+    Range("E4") = Application.Sum(teen) / teen.Count
+    Range("E5") = Application.Sum(adult) / adult.Count
+    Range("E6") = Application.Sum(senior) / senior.Count
+    Range("E8") = error.Count
+    
+    Range("E3:E8").NumberFormat = "0.00"
+    
+    'MsgBox ("Found " & senior.Count & " Seniors in " & """" & _
+                Replace(senior.Address, "$", "") & """" & _
+                vbNewLine & "Average of ages is " & Application.Sum(senior) / senior.Count)
+    
+    'MsgBox ("Found " & child.Count & " Children in " & """" & _
+                Replace(child.Address, "$", "") & """" & _
+                vbNewLine & "Average of ages is " & Application.Sum(child) / child.Count)
+    
+    'MsgBox ("Found " & teen.Count & " Teenagers in " & """" & _
+                Replace(teen.Address, "$", "") & """" & _
+                vbNewLine & "Average of ages is " & Application.Sum(teen) / teen.Count)
+    
+    'MsgBox ("Found " & adult.Count & " Adults in " & """" & _
+                Replace(adult.Address, "$", "") & """" & _
+                vbNewLine & "Average of ages is " & Application.Sum(adult) / adult.Count)
+    
+    'MsgBox ("Found " & error.Count & " Errors in " & """" & _
+                Replace(error.Address, "$", "") & """" & _
+                vbNewLine & "Average of ages is " & Application.Sum(error) / error.Count)
+ 
+    Range("D1") = "Ashley Dattalo"
+                 
+    
+End Sub
+
+
+
+
+
