@@ -1,0 +1,78 @@
+'lab 03
+'Ashley Dattalo
+
+Option Explicit
+
+Function MySum(n)
+Dim x As Long, i As Long
+
+For i = 1 To n
+    x = x + i
+Next
+MySum = x
+
+End Function
+Function MySquare(n)
+Dim x As Long, i As Long
+
+x = n ^ 2
+MySquare = x
+
+End Function
+Function MyPow2(n)
+Dim x As Long, i As Long
+
+x = 2 ^ n
+MyPow2 = x
+
+End Function
+Function MyFact(n)
+Dim x As Double, i As Long
+
+x = 1
+For i = 1 To n
+    x = x * i
+Next
+
+MyFact = x
+
+End Function
+
+Function MyPowN(n)
+Dim x As Double, i As Long
+
+x = n ^ n
+MyPowN = x
+
+End Function
+
+Sub main()
+ActiveSheet.Cells.Clear
+
+Range("A1").Value = "n"
+Range("B1").Value = "MySum(n)"
+Range("C1").Value = "MySquare(n)"
+Range("D1").Value = "MyPow2(n)"
+Range("E1").Value = "MyFact(n)"
+Range("F1").Value = "MyPowN(n)"
+
+
+Range("A2:A14").Value = "=Row()-1"
+Range("B2:B14").Formula = "=MySum(RC[-1])"
+Range("C2:C14").Formula = "=MySquare(RC[-2])"
+Range("D2:D14").Formula = "=MyPow2(RC[-3])"
+Range("E2:E14").Formula = "=MyFact(RC[-4])"
+Range("F2:F14").Formula = "=MyPowN(RC[-5])"
+
+
+Range("A2:F14").NumberFormat = "0"
+Range("A1:F14").Columns.AutoFit
+Range("A15").Value = "Ashley Dattalo"
+Range("A15").Columns.AutoFit
+Range("A1:F15").HorizontalAlignment = xlRight
+
+End Sub
+
+
+
+
