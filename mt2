@@ -1,0 +1,77 @@
+'mt2
+'Ashley Dattalo
+
+Option Explicit
+
+Function windchill(v, t)
+
+    windchill = 13.12 + (0.6215 * t) - (11.37 * (v ^ 0.16)) + (0.3965 * t * (v ^ 0.16))
+
+End Function
+Function nRowValues(n, a, b)
+    Dim v As Variant
+    Dim x As Double
+    Dim i As Integer
+    x = (b - a) / (n - 1)
+    ReDim v(1 To n)
+    v(1) = a
+    For i = 2 To n - 1
+        v(i) = v(i - 1) + x
+    Next
+    v(i) = b
+    nRowValues = v
+End Function
+Function nColumnValues(n, a, b)
+    nColumnValues = Application.WorksheetFunction.Transpose(nRowValues(n, a, b))
+End Function
+
+Sub main()
+    
+    Dim rc As Range, Rng As Range
+
+    'headings
+    Range("G1") = "WindChill"
+    Range("B2") = "TempC"
+    Range("G2") = "Ashley Dattalo"
+    Range("A3") = "V/Kph"
+    Range("G15") = "(in degrees C)"
+
+    Range("B3:N3") = nRowValues(13, 10, -50)
+    Range("A4:A14") = nColumnValues(11, 10, 60)
+    
+    Range("B4:N14") = "=windchill(RC1, R3C)"
+    
+    
+    'Coloring
+    Range("A1:O15").Interior.Color = RGB(0, 0, 0)
+    Range("A1:O15").Font.Color = RGB(255, 255, 255)
+    Range("B4:N14").Interior.Color = RGB(255, 255, 255)
+    Range("B4:N14").Font.Color = RGB(0, 0, 0)
+    
+    Set Rng = Range("B4:N14")
+    For Each rc In Rng
+        If rc > 0 Then
+            rc.Interior.Color = RGB(51, 204, 255)
+            rc.Font.Color = RGB(255, 255, 255)
+        End If
+        If rc > -20 And rc < 0 Then
+            rc.Interior.Color = RGB(0, 102, 255)
+            rc.Font.Color = RGB(255, 255, 255)
+        End If
+        If rc > -40 And rc < -20 Then
+            rc.Interior.Color = RGB(153, 0, 204)
+            rc.Font.Color = RGB(255, 255, 255)
+        End If
+        If rc > -60 And rc < -40 Then
+            rc.Interior.Color = RGB(102, 0, 204)
+            rc.Font.Color = RGB(255, 255, 255)
+        End If
+        If rc <= -60 Then
+            rc.Interior.Color = RGB(255, 0, 0)
+            rc.Font.Color = RGB(255, 255, 255)
+        End If
+    
+        Next
+        
+End Sub
+
