@@ -1,0 +1,165 @@
+'lab11
+'Ashley Dattalo
+Option Explicit
+
+Function MyAdd(A, B, length)
+    Dim C As Variant
+    Dim I As Long
+    ReDim C(1 To length)
+    For I = 1 To length
+        C(I) = A(I) + B(I)
+    Next
+    MyAdd = C
+End Function
+Function MySub(A, B, length)
+    Dim C As Variant
+    Dim I As Long
+    ReDim C(1 To length)
+    For I = 1 To length
+        C(I) = A(I) - B(I)
+    Next
+    MySub = C
+End Function
+Function MyMul(A, X, length)
+    Dim C As Variant
+    Dim I As Long
+    ReDim C(1 To length)
+    For I = 1 To length
+        C(I) = A(I) * X
+    Next
+    MyMul = C
+End Function
+Function MyDiv(A, X, length)
+    Dim C As Variant
+    Dim I As Long
+    ReDim C(1 To length)
+    For I = 1 To length
+        C(I) = A(I) / X
+    Next
+    MyDiv = C
+End Function
+Function MyMag(A, length)
+    Dim C As Variant, sum As Variant
+    Dim I As Long
+    ReDim C(1 To length)
+    For I = 1 To length
+        sum = sum + A(I) * A(I)
+    Next
+    MyMag = sum ^ (1 / 2)
+End Function
+Function MyUnit(A, B, length)
+    Dim C As Variant
+    Dim I As Long
+    ReDim C(1 To length)
+    For I = 1 To length
+        C(I) = A(I) / ((3 ^ 2 + 2 ^ 2 + 1 ^ 2) ^ (1 / 2))
+    Next
+    MyUnit = C
+End Function
+ Function MyDotProd(A, B, length)
+        Dim C As Variant, sum As Variant
+        Dim I As Long
+        ReDim C(1 To length)
+        For I = 1 To length
+            C(I) = A(I) * B(I)
+            sum = sum + C(I)
+        Next
+        MyDotProd = sum
+    End Function
+Function MyCrossProd(A, B, length)
+    Dim C As Variant
+    ReDim C(1 To length)
+    C(1) = (A(2) * B(3)) - (B(2) * A(3))
+    C(2) = A(1) * B(3) - B(1) * A(3)
+    C(3) = A(1) * B(2) - A(2) * B(1)
+    MyCrossProd = C
+End Function
+ Function MyAngle(A, B, length)
+        'A dot B
+        Dim C As Variant, AdotB As Variant
+        Dim I As Long
+        ReDim C(1 To length)
+        For I = 1 To length
+            C(I) = A(I) * B(I)
+            AdotB = AdotB + C(I)
+        Next
+        
+            'mag of A
+            Dim C2 As Variant, h As Variant, MagA As Variant
+            Dim I2 As Long
+            ReDim C2(1 To length)
+            For I2 = 1 To length
+                h = h + A(I2) * A(I2)
+            Next
+            MagA = h ^ (1 / 2)
+            
+            'mag of B
+            Dim C3 As Variant, sum3 As Variant, MagB As Variant
+            Dim I3 As Long
+            ReDim C3(1 To length)
+            For I3 = 1 To length
+                sum3 = sum3 + B(I3) * B(I3)
+            Next
+            MagB = sum3 ^ (1 / 2)
+        
+        'theta  = inverse cosine ( A dot B / (mag of A * mag of B)  )
+        'w = A dot B / (mag of A * mag of B)
+        'theta = invers cos of ( w)
+        
+        Dim u As Variant, w As Variant
+        w = AdotB / (MagA * MagB)
+        u = Atn(-w / Sqr(-w * w + 1)) + 2 * Atn(1)
+        
+        MyAngle = u
+        
+    End Function
+    
+Sub main()
+    Dim v As Variant
+    Cells.Clear
+    Range("A1") = "Vector Lab"
+    Dim A As Variant, B As Variant, C As Variant
+    Dim X As Double
+    
+    Range("A3:D3") = [ { "Vectors", "i", "j", "k" } ]
+    
+    Range("A4") = "A"
+    A = [ { 2,3,1} ]
+    Range(Cells(4, 2), Cells(4, 4)) = A
+    
+    Range("A5") = "B"
+    B = [ {4,1,2 } ]
+    Range(Cells(5, 2), Cells(5, 4)) = B
+    
+    Range("A7") = "Vector Operations"
+    
+    Range("A8") = "MyAdd(A,B,3)"
+        Range(Cells(8, 2), Cells(8, 4)) = MyAdd(A, B, 3)
+    Range("A9") = "MySub(A,B,3)"
+        Range(Cells(9, 2), Cells(9, 4)) = MySub(A, B, 3)
+    Range("A10") = "MyMul(A,2)"
+        Range(Cells(10, 2), Cells(10, 4)) = MyMul(A, 2, 3)
+    Range("A11") = "MyDiv(A,3)"
+        Range(Cells(11, 2), Cells(11, 4)) = MyDiv(A, 3, 3)
+    Range("A12") = "MyMag(A,3)"
+        Range("B12") = MyMag(A, 3)
+    Range("A13") = "MyUnit(A,3)"
+        Range(Cells(13, 2), Cells(13, 4)) = MyUnit(A, B, 3)
+    Range("A14") = "MyDotProd(A,B,3)"
+        Range("B14") = MyDotProd(A, B, 3)
+    Range("A15") = "MyCrossProd(A,B,3)"
+        Range(Cells(15, 2), Cells(15, 4)) = MyCrossProd(A, B, 3)
+    Range("A16") = "MyAngle(A,B,3)"
+        Range("B16") = MyAngle(A, B, 3)
+    Range("C16") = "(radian)"
+
+    
+    'Stuff I added
+    Range("B4: D16").NumberFormat = "0.0000"
+    Range("A3:D17").HorizontalAlignment = xlRight
+    
+    Range("A1") = "Ashley Dattalo"
+    Range("A1:A17").Columns.AutoFit
+    Range("A1,A3,A7").HorizontalAlignment = xlLeft
+    
+End Sub
