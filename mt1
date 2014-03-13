@@ -1,0 +1,31 @@
+
+'mt1a
+'Ashley Dattalo
+Option Explicit
+
+
+Sub main()
+    
+    Dim rng As Range, rc As Range, TCH As Range
+    Dim x As Variant
+    
+
+    Range("D2") = "Ashley Dattalo"
+    Range("D4") = "TCH avg"
+    Range("D5") = "Number of days in TCH below TCH avg"
+    
+    Range("E4").Formula = "=Average(B2:B32)"
+    
+    Range("A1") = "TSF"
+    Range("B1") = "TCH"
+    
+    Set rng = Range("B2:B32")
+      For Each rc In rng
+        If rc < 78.83 Then
+            x = x + 1
+        End If
+    Next
+    
+    Range("E5") = "=x"
+
+End Sub
