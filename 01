@@ -1,0 +1,93 @@
+
+'lab01
+'Ashley Dattalo
+
+Option Explicit
+
+
+Sub AreaOfCircle()
+   'Problem2
+    Dim a As Double
+    
+    Const pi = 3.14159
+
+   Dim r As Double
+   r = Val(InputBox("enter radius:"))
+   a = pi * r * r
+
+   MsgBox ("Lab01 Ashley Dattalo" & "Jan 9, 2014" & vbNewLine & vbNewLine & "The area of a circle is: " & Format(a, "0.00"))
+    
+End Sub
+
+
+Sub DistanceFromOrigin()
+   'Problem1
+ 
+   Dim x As Double, y As Double, z As Double
+   x = InputBox("Enter x value:")
+   y = InputBox("Enter y value:")
+   z = ((x * x + y * y) ^ (1 / 2))
+   
+   MsgBox ("Lab01 Ashley Dattalo" & "Jan 9, 2014" & vbNewLine & vbNewLine & "Distance from the Orgin is: " & z & Format(z, "0.00"))
+    
+End Sub
+
+
+Sub CalcOverflow()
+   'Problem3
+    Dim r As Double, h As Double, F As Double, t As Double
+    Dim v As Double, Vt As Double, Vo As Double
+    r = InputBox("Enter the radius value:") '(m)
+    h = InputBox("Enter the height value:") '(m)
+    F = InputBox("Enter the Flow value:") '(m3/minutes)
+    t = InputBox("Enter time value:") '(hr)
+Const pi = 3.1415
+
+    v = pi * r * r * h
+    
+    Vt = F * t * 60
+    
+    If Vt > v Then
+    
+    Vo = Vt - v
+    
+    Else
+    Vo = 0
+    
+    End If
+    
+    
+    MsgBox ("Lab01 Ashley Dattalo" & "Jan 9, 2014" & vbNewLine & vbNewLine & "the answer is: " & Format(Vo, ".00") & " m^3")
+    
+   
+End Sub
+
+Sub StrokesLaw()
+
+    Const a = 1#
+    Const g = 981
+    Dim v As Double
+    Dim u As Double
+    Dim d As Double
+    Dim Pp As Double
+    Dim Pl As Double
+    
+    u = Val(InputBox("Enter the dynamic viscosity (u): "))
+    d = Val(InputBox("Enter the effective particle diameter (d): "))
+    Pp = Val(InputBox("Enter the density of the particle(Pp): "))
+    Pl = Val(InputBox("Enter the density of the liquid(Pl): "))
+    
+    v = a * (g / 18) * ((Pp - Pl) / u) * d * d
+    
+    MsgBox ("Lab01 Ashley Dattalo" & "Jan 9, 2014" & vbNewLine & vbNewLine & "the settling velocity is: " & Format(v, "0.000000") & " cm/s")
+
+End Sub
+
+Sub Main()
+    Call AreaOfCircle
+    Call DistanceFromOrigin
+    Call CalcOverflow
+    Call StrokesLaw
+End Sub
+
+
