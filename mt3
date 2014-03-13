@@ -1,0 +1,80 @@
+'Ashley Dattalo
+
+Option Explicit
+
+Function MyF(x)
+    Dim f As Double
+    f = x
+    If f = 0 Then
+        MyF = 0
+    End If
+    If f < 0 Or f > 0 Then
+        MyF = (Cos(f)) / f
+    End If
+End Function
+Function MyF2(x)
+    MyF2 = 3.14159 * x
+End Function
+Function nRowValues(n, a, b)
+    Dim v As Variant
+    Dim x As Double
+    Dim i As Integer
+    x = (b - a) / (n - 1)
+    ReDim v(1 To n)
+    v(1) = a
+    For i = 2 To n - 1
+        v(i) = v(i - 1) + x
+    Next
+    v(i) = b
+    nRowValues = v
+End Function
+Function nColumnValues(n, a, b)
+    nColumnValues = Application.WorksheetFunction.Transpose(nRowValues(n, a, b))
+End Function
+Function degToRad(s)
+    degToRad = (s * 3.1415926) / 180
+End Function
+Sub chartTwoLines(x1, y1, x2, y2, x1y1Name As String, x2y2Name As String, chartName As String, PlotBy As Integer)
+    Dim cht As Chart
+    Set cht = ActiveSheet.Shapes.AddChart().Chart
+    With cht
+    .SetSourceData Source:=x1, PlotBy:=PlotBy
+    .HasTitle = True
+    .ChartTitle.Characters.Text = chartName
+    .SeriesCollection(1).Values = y1
+    .SeriesCollection(1).Name = x1y1Name
+    .ChartType = xlLine
+    
+    .SeriesCollection.NewSeries
+    .SeriesCollection(2).XValues = x2
+    .SeriesCollection(2).Values = y2
+    .SeriesCollection(2).Name = x2y2Name
+    .ChartType = xlLine
+    
+    .Parent.Name = chartName
+  End With
+End Sub
+Sub Main()
+Cells.Clear
+    Dim name1 As String
+    Dim name2 As String
+    
+    Range("A3") = "Degrees"
+    Range("B3") = "Radian"
+    Range("C3") = "MyF(x)"
+    Range("D3") = "MyF(pi*x)"
+    Range("E3") = "Ashley Dattalo"
+    
+    Range("A4:A40") = nColumnValues(37, -90, 90)
+    Range("B4:B40") = "=degToRad(RC[-1])"
+    Range("C4:C40") = "=MyF(RC[-1])"
+    Range("D4:D40") = "=MyF(3.141592625*RC[-2])"
+
+    
+    Range("B4:E40").NumberFormat = "0.00"
+    
+    Call chartTwoLines(Range("A4:A40"), Range("C4:C40"), Range("A4:A40"), Range("D4:D40"), "MyF(x)", "MyF(pi*x)", _
+    "Ashley Dattalo", xlColumns)
+    
+End Sub
+
