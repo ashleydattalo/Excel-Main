@@ -1,0 +1,98 @@
+'lab 08
+'Ashley Dattalo
+
+Option Explicit
+'3,4,5
+Function nRowValues(n, a, b)
+    Dim v As Variant
+    Dim x As Double
+    Dim i As Integer
+    x = (b - a) / (n - 1)
+    ReDim v(1 To n)
+    v(1) = a
+    For i = 2 To n - 1
+        v(i) = v(i - 1) + x
+    Next
+    v(i) = b
+    nRowValues = v
+End Function
+Function nColumnValues(n, a, b)
+    nColumnValues = Application.WorksheetFunction.Transpose(nRowValues(n, a, b))
+End Function
+Function MyMultiply(n, m)
+MyMultiply = n * m
+End Function
+Function MyDistance(x, y)
+MyDistance = ((x ^ 2) + (y ^ 2)) ^ (1 / 2)
+End Function
+
+
+Sub main()
+Dim seed As Integer
+Dim rng As Range, rg As Range, rc As Range
+Dim c As Integer
+Cells.Clear
+Application.ScreenUpdating = True
+seed = -2
+Rnd [seed]
+
+'Problem 1: Multiplication Table
+
+Range("D1") = "n*m"
+Range("F1") = "Ashley Dattalo"
+Set rng = Range("A1, M15")
+rng.Columns.ColumnWidth = 4
+rng.HorizontalAlignment = xlRight
+Range("A1").HorizontalAlignment = xlLeft
+
+Range("A1:L14").Interior.Color = RGB(0, 0, 0)
+Range("A1:L14").Font.Color = RGB(255, 255, 255)
+
+Range("B3:L3") = nRowValues(11, 3, 33)
+Range("A4:A14") = nColumnValues(11, 3, 33)
+
+Range("B4:L14") = "=MyMultiply(RC1 , R3C)"
+
+Range("B2") = "n"
+Range("A3") = "m"
+
+MsgBox ("ok")
+'Cells.Clear
+
+'Problem 2 - Distance Table
+Range("B1:P1") = nRowValues(15, -14, 14)
+Range("A2:A16") = nColumnValues(15, -14, 14)
+Range("B2:P16") = "=MyDistance(RC1 , R1C)"
+
+
+'Formatting
+Set rng = Range("A1: P16")
+rng.Columns.ColumnWidth = 4
+rng.HorizontalAlignment = xlRight
+
+'Coloring
+
+Range("A1:Q17").Interior.Color = RGB(0, 0, 0)
+Range("A1:Q17").Font.Color = RGB(255, 255, 255)
+Range("B2:P16").Interior.Color = RGB(255, 255, 255)
+Range("B2:P16").Font.Color = RGB(0, 0, 0)
+
+Set rng = Range("B2:P16")
+For Each rc In rng
+    If rc < 5 Then
+        rc.Interior.Color = RGB(255, 0, 0)
+    End If
+    If rc > 5 And rc < 10 Then
+        rc.Interior.Color = RGB(0, 255, 0)
+    End If
+    If rc >= 10 And rc < 15 Then
+        rc.Interior.Color = RGB(0, 100, 255)
+    End If
+    If rc > 15 Then
+        rc.Interior.Color = RGB(255, 255, 255)
+    End If
+Next
+
+Range("H17") = "Ashley Dattalo"
+
+End Sub
