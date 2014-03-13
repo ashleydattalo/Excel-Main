@@ -1,0 +1,114 @@
+'lab09
+'Ashley Dattalo
+
+Option Explicit
+
+'Function MySumOne9()
+'    Dim i As Double, n As Double, s As Double
+'    i = 1
+'    n = 9
+'    s = 0
+'    While i <= n
+'        s = s + i
+'        i = i + 1
+'    Wend
+'    MySumOne9 = s
+'End Function
+'Function MySumOne999()
+'    Dim i As Double, n As Double, s As Double
+'    i = 1
+'    n = 999
+'    s = 0
+'    While i <= n
+'        s = s + i
+'        i = i + 1
+'    Wend
+'    MySumOne999 = s
+'End Function
+'Function MySumOneMany9()
+'    Dim i As Double, n As Double, s As Double
+'    i = 1
+'    n = 999999999
+'    s = 0
+'    While i <= n
+'        s = s + i
+'        i = i + 1
+'    Wend
+'    MySumOneMany9 = s
+'End Function
+
+Function epsilon()
+    Dim s As Double, t As Double
+    s = 1#
+    t = 1#
+    While s + t <> s
+        t = t / 2
+    Wend
+    epsilon = t
+End Function
+Function pi_ml()
+    Dim pi As Double, i As Double, n As Double, k As Double
+
+    pi = 0
+    i = 1
+    n = 200000000
+    
+    k = 1
+    
+    While i <= n
+        pi = pi + 4 * (k / i)
+        i = i + 2
+        k = -1 * k
+    Wend
+    pi_ml = pi
+
+End Function
+
+Function pi_bbp()
+    Dim s As Double, k As Double, t As Double
+    
+    s = 0#
+    k = 0
+    t = (1 / (16 ^ k)) * ((4 / (8 * k + 1)) - (2 / (8 * k + 4)) - (1 / (8 * k + 5)) - (1 / (8 * k + 6)))
+    
+    While t > epsilon()
+          s = s + t   ' add to to s
+          k = k + 1   ' increment k
+          t = (1 / (16 ^ k)) * ((4 / (8 * k + 1)) - (2 / (8 * k + 4)) - (1 / (8 * k + 5)) - (1 / (8 * k + 6)))
+      Wend
+    pi_bbp = s
+End Function
+Function pi_tan()
+    pi_tan = 4 * Atn(1)
+End Function
+Sub main()
+    Cells.Clear
+    Range("A1") = "Lab09"
+    Range("B1") = "Ashley Dattalo"
+    
+'    Range("A2") = "While Loop - Summation"
+'    Range("A3") = "Sum 1..9"
+'    Range("B3") = MySumOne9()
+'    Range("A4") = "Sum 1..999"
+'    Range("B4") = MySumOne999()
+'    Range("A5") = "Sum 1..999999999"
+'    Range("B5") = MySumOneMany9()
+    
+    Range("C5") = "(exceeds max precision)"
+
+    Range("A7") = "While Loop - Approximation"
+    Range("A8") = "Epsilon (smallest value)"
+    Range("B8") = epsilon()
+    Range("A9") = "Pi approx(Madhava-Liebniz)"
+    Range("B9") = pi_ml()
+    Range("A10") = "Pi approx(BBP)"
+    Range("B10") = pi_bbp
+    Range("A11") = "Pi approx4*atn(1)"
+    Range("B11") = pi_tan
+    
+    Range("B3:B5").NumberFormat = "0"
+    Range("B8:B11").NumberFormat = "0.0000000000000000"
+    Range("A4:B11").Columns.AutoFit
+
+    
+End Sub
