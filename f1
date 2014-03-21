@@ -1,0 +1,140 @@
+'lab15
+'ashley dattalo
+
+Option Explicit
+Sub fillData()
+    Dim x As Long, y As Long
+    Cells(1, 2).Value = -10#
+    Cells(2, 1).Value = -10#
+    For y = 3 To 202
+    Cells(1, y).Value = Cells(1, y - 1) + 0.1
+    Next y
+    For x = 3 To 202
+        Cells(x, 1).Value = Cells(x - 1, 1) + 0.1
+    Next x
+    
+    'use nested loope to fill...
+    For y = 2 To 202
+        For x = 2 To 202
+            Cells(x, y).Value = (1 + Cos(((Cells(x, 1).Value ^ 2 + Cells(1, y).Value ^ 2)) ^ (1 / 2))) / 2
+        Next x
+    Next y
+End Sub
+
+Sub makechart(stype As String)
+    Dim oChart As Chart, oChartObj As ChartObject
+    Dim ctype As Integer
+    Dim xrot As Integer, yrot As Integer
+    Set oChart = Charts.Add
+    
+    With oChart
+        .SetSourceData Source:=Sheet1.Cells, PlotBy:=xlRows
+        .Location Where:=xlLocationAsObject, Name:="Sheet1"
+    End With
+    
+    With ActiveSheet
+        Set oChartObj = .ChartObjects(.ChartObjects.Count)
+    End With
+    
+    If stype = "xlSurface" Then
+        ctype = xlSurface
+    Else
+        ctype = xlSurfaceTopView
+    End If
+    
+    With oChartObj.Chart
+        .HasTitle = True
+        .ChartTitle.Characters.Text = "Ricker Wavelet(Ashley Dattalo)"
+        .ChartGroups(1).Has3DShading = True
+        .Axes(xlValue).TickLabels.Font.Color = RGB(0, 0, 0) 'RGB(0,0,0) is black, RGB(255,255,255) is white
+        .Axes(xlCategory).TickLabels.Font.Color = RGB(0, 0, 0)
+        .Axes(xlValue).MaximumScale = 1
+        .Axes(xlValue).MinimumScale = 0
+        .Axes(xlValue).MajorUnit = 0.2
+        .ChartStyle = 3
+        .ChartType = xlSurface                              'slSurfaceWireFrame is another surface ChartType
+        .ChartArea.Format.ThreeD.LightAngle = 10
+        .ChartArea.Format.ThreeD.IncrementRotationX (xrot)  '0 thru 90 degrees rotation about x-axis
+        .ChartArea.Format.ThreeD.IncrementRotationY (yrot)
+        .PlotArea.Format.Fill.ForeColor.RGB = RGB(255, 255, 255)
+        .ChartType = ctype
+    End With
+End Sub
+
+Sub makechart2(stype As String)
+    Dim oChart As Chart, oChartObj As ChartObject
+    Dim ctype As Integer
+    Dim xrot As Integer, yrot As Integer
+    Set oChart = Charts.Add
+    
+    With oChart
+        .SetSourceData Source:=Sheet1.Cells, PlotBy:=xlRows
+        .Location Where:=xlLocationAsObject, Name:="Sheet1"
+    End With
+    
+    With ActiveSheet
+        Set oChartObj = .ChartObjects(.ChartObjects.Count)
+    End With
+    
+    If stype = "xlSurface" Then
+        ctype = xlSurface
+    Else
+        ctype = xlSurfaceTopView
+    End If
+    
+    With oChartObj.Chart
+        .HasTitle = True
+        .ChartTitle.Characters.Text = "Ricker Wavelet(Ashley Dattalo)"
+        .ChartGroups(1).Has3DShading = True
+        .Axes(xlValue).TickLabels.Font.Color = RGB(0, 0, 0) 'RGB(0,0,0) is black, RGB(255,255,255) is white
+        .Axes(xlCategory).TickLabels.Font.Color = RGB(0, 0, 0)
+        .Axes(xlValue).MaximumScale = 1
+        .Axes(xlValue).MinimumScale = 0
+        .Axes(xlValue).MajorUnit = 0.2
+        .ChartStyle = 3
+        .ChartType = xlSurface                              'slSurfaceWireFrame is another surface ChartType
+        .ChartArea.Format.ThreeD.LightAngle = 10
+        .ChartArea.Format.ThreeD.IncrementRotationX (xrot)  '0 thru 90 degrees rotation about x-axis
+        .ChartArea.Format.ThreeD.IncrementRotationY (yrot)
+        .PlotArea.Format.Fill.ForeColor.RGB = RGB(255, 255, 255)
+        .ChartType = ctype
+    End With
+End Sub
+
+Sub main()
+    Dim ChartObject As Object, ChartObjects As Object
+    ActiveSheet.Cells.Clear
+    For Each ChartObject In Sheet1.ChartObjects
+        ChartObject.Delete
+    Next
+    Call fillData
+    Call makechart("xlSurface")
+
+End Sub
+Sub main2()
+    Dim ChartObject As Object, ChartObjects As Object
+    ActiveSheet.Cells.Clear
+    For Each ChartObject In Sheet1.ChartObjects
+        ChartObject.Delete
+    Next
+    Call fillData
+    Call makechart2("xlSurfaceTopView")
+
+End Sub
+
+Private Sub CommandButton1_Click()
+    Call main
+    
+End Sub
+
+Private Sub CommandButton2_Click()
+    Call main2
+End Sub
+
+Private Sub CommandButton4_Click()
+    Unload UserForm1
+End Sub
+
+
+
+
