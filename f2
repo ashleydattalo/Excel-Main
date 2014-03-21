@@ -1,0 +1,61 @@
+
+
+Private Sub TextBox1_Change()
+
+End Sub
+
+Private Sub TextBox2_Change()
+
+End Sub
+
+Private Sub TextBox3_Change()
+  
+End Sub
+
+Private Sub TextBox4_Change()
+
+End Sub
+
+Private Sub TextBox5_Change()
+
+End Sub
+
+Private Sub TextBox6_Change()
+
+End Sub
+
+Private Sub CommandButton1_Click()
+    Dim Va As Double, Vax As Double, thetaACalc As Double, thetaA As Double, Vay As Double, Vam As Double
+    thetaA = (90 - TextBox1.Value) * (3.14 / 180)
+    Va = TextBox2.Value
+    Vay = Va * Sin(thetaA)
+    Vax = Va * Cos(thetaA)
+    Vam = ((Vay * Vay) + (Vax * Vax)) ^ (1 / 2)
+    
+    Dim Vw As Double, Vwx As Double, thetaWCalc, thetaW As Double, Vwy As Double, Vwm As Double
+    thetaW = (90 - TextBox4.Value) * (3.14 / 180)
+    Vw = TextBox5.Value
+    Vwy = Vw * Sin(thetaW)
+    Vwx = Vw * Cos(thetaW)
+    Vwm = ((Vwy * Vwy) + (Vwx * Vwx)) ^ (1 / 2)
+    
+    Dim V As Double, Vx As Double, Vy As Double, theta As Double
+    Vx = Vax + Vwx
+    Vy = Vay + Vwy
+    V = ((Vy * Vy) + (Vx * Vx)) ^ (1 / 2)
+    theta = Atn(Vy / Vx) * (180 / 3.14)
+    TextBox3 = V
+    TextBox6 = 90 - theta
+End Sub
+
+Private Sub CommandButton2_Click()
+    Unload UserForm1
+    UserForm1.Show
+End Sub
+Private Sub CommandButton3_Click()
+  Unload UserForm1
+End Sub
+
+
+
+
